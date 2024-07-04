@@ -15,7 +15,7 @@ dependencies:
   pdfx: ^2.6.0
   permission_handler: ^11.3.1
   receive_sharing_intent: ^1.8.0
-  # share_plus: ^9.0.0
+  share_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

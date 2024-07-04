@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdfviewer/components/AppBar.dart';
 import 'package:pdfx/pdfx.dart';
-// import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 
 // import 'package:share_plus/share_plus.dart';
 class Pdfview extends StatefulWidget {
@@ -43,12 +43,12 @@ class _PdfviewState extends State<Pdfview> {
   }
 
   Future<void> _sharePDF(String pdfFilepath) async {
-    // try {
-    //   await Share.shareXFiles([XFile('$pdfFilepath')],
-    //       text: 'Check out this PDF file!');
-    // } catch (e) {
-    //   print('Error sharing file: $e');
-    // }
+    try {
+      await Share.shareXFiles([XFile('$pdfFilepath')],
+          text: 'Check out this PDF file!');
+    } catch (e) {
+      print('Error sharing file: $e');
+    }
   }
 
   Widget _buildUI() {
