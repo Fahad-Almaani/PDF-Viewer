@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:pdfx/pdfx.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import '../pages/pdfview.dart';
@@ -36,11 +36,11 @@ class _FileGridState extends State<FileGrid> {
 
       for (Directory dir in directories) {
         if (dir.existsSync()) {
-          print('Checking directory: ${dir.path}');
+          // print('Checking directory: ${dir.path}');
           try {
             List<FileSystemEntity> files =
                 await dir.list(recursive: true).toList();
-            print('Files found in ${dir.path}: ${files.length}');
+            // print('Files found in ${dir.path}: ${files.length}');
 
             setState(() {
               _pdfFiles.addAll(files
@@ -49,16 +49,16 @@ class _FileGridState extends State<FileGrid> {
                   .toList());
             });
           } catch (e) {
-            print('Error listing files in ${dir.path}: $e');
+            // print('Error listing files in ${dir.path}: $e');
           }
         } else {
-          print('Directory does not exist: ${dir.path}');
+          // print('Directory does not exist: ${dir.path}');
         }
       }
 
-      print('Total PDF files found: ${_pdfFiles.length}');
+      // print('Total PDF files found: ${_pdfFiles.length}');
     } else {
-      print('Required permissions are not granted');
+      // print('Required permissions are not granted');
     }
   }
 
@@ -81,7 +81,7 @@ class _FileGridState extends State<FileGrid> {
   @override
   Widget build(BuildContext context) {
     return _pdfFiles.isEmpty
-        ? Text("No PDF files found")
+        ? const Text("No PDF files found")
         : Padding(
             padding: const EdgeInsets.all(10.0),
             child: GridView.builder(
@@ -95,16 +95,37 @@ class _FileGridState extends State<FileGrid> {
                   File pdfFile = _pdfFiles[index];
                   return GestureDetector(
                     onTap: () => {goToPDFViewer(pdfFile.path)},
-                    child: GridTile(
-                        child: Icon(Icons.picture_as_pdf, size: 50.0),
-                        footer: GridTileBar(
-                          backgroundColor: Colors.black54,
-                          title: Text(
-                            pdfFile.path.split('/').last,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color:const Color.fromARGB(255, 0, 0, 0), // Border color
+                          width: .5, // Border width
+                        ),
+                        borderRadius:
+                            BorderRadius.circular(1.0), // Border radius
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Colors.black.withOpacity(0.1), // Shadow color
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
-                        )),
+                        ],
+                      ),
+                      child: GridTile(
+                          footer: GridTileBar(
+                            // backgroundColor: Colors.black54,
+                            title: Text(
+                              pdfFile.path.split('/').last,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 12.0, color: Colors.black),
+                            ),
+                          ),
+                          child: const Icon(Icons.picture_as_pdf, size: 50.0)),
+                    ),
                   );
                 }),
           );

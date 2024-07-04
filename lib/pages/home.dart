@@ -5,9 +5,7 @@ import 'package:pdfviewer/components/FilesGrid.dart';
 import 'pdfview.dart';
 import 'package:file_picker/file_picker.dart';
 
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
+
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'dart:async';
 
@@ -19,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String? _filePath;
+  // String? _filePath;
   Future<void> _pickPDFFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -28,7 +26,7 @@ class _HomeState extends State<Home> {
 
     if (result != null) {
       setState(() {
-        _filePath = result.files.single.path;
+        // _filePath = result.files.single.path;
         Navigator.push(
           context,
           MaterialPageRoute<void>(
@@ -71,15 +69,17 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     // WidgetsBinding.instance.removeObserver;
-    _intentSub?.cancel();
+    _intentSub.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      body: Center(
+      appBar: const MyAppBar(
+        automaticallyImplyLeading: false,
+      ),
+      body: const Center(
           child: Padding(
         padding: EdgeInsets.symmetric(vertical: 40),
         child: FileGrid(),
@@ -89,11 +89,11 @@ class _HomeState extends State<Home> {
         onPressed: () {
           _pickPDFFile();
         },
-        child: Icon(
+        elevation: 20,
+        child:const Icon(
           Icons.open_in_browser,
           color: Colors.white,
         ),
-        elevation: 20,
       ),
     );
   }

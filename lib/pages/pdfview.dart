@@ -27,14 +27,16 @@ class _PdfviewState extends State<Pdfview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: MyAppBar(
+        title: widget.initialFilePath.split('/').last,
+      ),
       body: _buildUI(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.red[800],
         onPressed: () {
           _sharePDF(widget.initialFilePath);
         },
-        child: Icon(
+        child: const Icon(
           Icons.share,
           color: Colors.white,
         ),
@@ -59,7 +61,6 @@ class _PdfviewState extends State<Pdfview> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Pages: $currentPage/$totalPageCount"),
             IconButton(
                 onPressed: () {
                   pdfControllerPinch.previousPage(
@@ -67,6 +68,7 @@ class _PdfviewState extends State<Pdfview> {
                       curve: Curves.linear);
                 },
                 icon: Icon(Icons.arrow_back)),
+            Text("Pages: $currentPage/$totalPageCount"),
             IconButton(
                 onPressed: () {
                   pdfControllerPinch.nextPage(
